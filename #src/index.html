@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="content">
+    <div class="content__body">
+      <div class="sidebar">
+        <div class="sidebar__body">
+          <div class="sidebar__title">
+            Задай мне вопрос:)
+          </div>
+        </div>
+      </div>
+      <div class="main">
+        <div class="main__body">
+          <form method="post" class="question-form">
+            <div class="main__subtitle">
+              Напиши вопрос
+            </div>
+            <input type="text" placeholder="Что хочешь спросить?" class="input">
+            <input type="submit" class="button" value="Задать вопрос">
+          </form>
+
+          <div class="main__subtitle">
+            Ваши вопросы
+          </div>
+          <div class="questions">
+            <div class="questions__item">
+              <div class="questions__date">
+                ${new Date(q.date).toLocaleDateString()}
+                ${new Date(q.date).toLocaleTimeString()}
+              </div>
+              <div class="questions__text">
+                ${q.text}
+              </div>
+              <!-- <div class="question__replyes">
+                <div class="question__replyes-btn">
+                  Ответы (2)
+                </div>
+                <div class="replyes">
+                  <div class="replyes__item">
+                    Отвечаю 1
+                  </div>
+                  <div class="replyes__item">
+                    Отвечаю 1
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-create">
+    Все
+  </div>
+</body>
+</html>
