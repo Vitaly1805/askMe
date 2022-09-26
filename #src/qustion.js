@@ -2,8 +2,10 @@ export default class Question {
   static questionsHTML = document.querySelector('.questions');
 
   static addQuestion(question) {
-    Question.#addQuestionToLocaleStorage(question);
-    Question.#addQuestionToFirebase(question);
+    Question.#addQuestionToFirebase(question)
+      .then(response => response.json())
+      .then(data => data.name)
+      .then(id => Question.#addQuestionToLocaleStorage(question, id));
   }
 
   static renderQuestions() {
@@ -18,12 +20,15 @@ export default class Question {
                 <div class="questions__text">
                   ${q.text}
                 </div>
+                <div class="reply-show-btn" id="${q.id}">Посмотреть ответ</div>
               </div>`
     }).join('');
+
+
   }
 
   static #addQuestionToFirebase(question) {
-    fetch('https://askme-f6478-default-rtdb.firebaseio.com/:questions.json', {
+    return fetch('https://askme-f6478-default-rtdb.firebaseio.com/:questions.json', {
       method: 'POST',
       body: JSON.stringify(question),
       headers: {
@@ -32,9 +37,10 @@ export default class Question {
     })
   }
 
-  static #addQuestionToLocaleStorage(question) {
+  static #addQuestionToLocaleStorage(question, id) {
     let questions = Question.#getQuestionsFromLocaleStorage()
     
+    question.id = id;
     questions.push(question);
     localStorage.setItem('questions', JSON.stringify(questions));
     Question.#renderQuestion(question);
@@ -59,21 +65,28 @@ export default class Question {
 
   static renderQuestionsFromFirebase(token) {
     if(!token) {
-      return '<p>Вопросов пока что нет!</p>';
+      return '<p>Нет вопросов, на который Вы не дали ответ!</p>';
     }
 
-    return fetch(`https://askme-f6478-default-rtdb.firebaseio.com/:questions.json?auth=${token}`)
+    return fetch(`https://askme-f6478-default-rtdb.firebaseio.com/:questions.json`)
       .then(response => response.json())
       .then(data => {
-        return Object.values(data).map(q => `<div class="questions__item">
-        <div class="questions__date">
-          ${new Date(q.date).toLocaleDateString()}
-          ${new Date(q.date).toLocaleTimeString()}
-        </div>
-        <div class="questions__text">
-          ${q.text}
-        </div>
-      </div>`).join('');
+        return Object.keys(data).map(id => { 
+          if(!data[id].reply) {
+              console.log(data)
+              console.log(id)
+              return `<div class="questions__item">
+                <div class="questions__date"> 
+                  ${new Date(data[id].date).toLocaleDateString()}
+                  ${new Date(data[id].date).toLocaleTimeString()}
+                </div>
+                <div class="questions__text">
+                  ${data[id].text}
+                </div>
+                <div class='reply-btn' id="${id}">Ответить</div>
+              </div>`;
+          }
+        }).join('')
       });
   }
 }

@@ -72,6 +72,7 @@
 
 .questions__text {
   line-height: 20px;
+  padding: 0 0 10px 0;
 }
 
 .modal-create {
@@ -132,6 +133,27 @@
 .error {
   color: red;
   text-align: center;
+}
+
+.reply-show-btn {
+  cursor:  pointer;
+  color:rgb(120, 175, 230);
+}
+
+.reply {
+  padding: 10px 0 0 10px;
+}
+
+.reply-btn {
+  padding: 10px 0 0 0;
+  color:rgb(120, 175, 230);
+  cursor: pointer;
+}
+
+.form-reply {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @media (max-width: 800px)  {

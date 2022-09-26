@@ -6,6 +6,7 @@ export function createModal(title, content) {
   modalWindow.classList.add('modal');
   modalWindow.innerHTML = `<h1 class="modal__title">${title}</h1>` + content;
   document.body.append(modalWindow);
+  document.body.style.overflow = 'hidden';
 
   createDarkBackgroundForBody();
   document.addEventListener('keydown', (event) => {
@@ -26,4 +27,5 @@ function createDarkBackgroundForBody() {
 export function delModal() {
   modalWindow.remove();
   bodyBackground.remove();
+  document.body.style.overflow = 'auto';
 }
